@@ -15,6 +15,7 @@ import com.userfront.domain.SavingsAccount;
 import com.userfront.domain.SavingsTransaction;
 import com.userfront.domain.User;
 import com.userfront.service.AccountService;
+import com.userfront.service.TransactionService;
 import com.userfront.service.UserService;
 
 @Service
@@ -31,6 +32,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TransactionService transactionService;
 	
 	
 	public PrimaryAccount createPrimaryAccount() {
@@ -63,7 +67,7 @@ public class AccountServiceImpl implements AccountService {
 			primaryAccountDao.save(primaryAccount);
 			Date date = new Date();			
 			PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Deposit to Primary Account", "Account","Finished", amount, primaryAccount.getAccountBalance(), primaryAccount);
-//			transactionService.savePrimaryDepositTransaction(primaryTransaction);
+			transactionService.savePrimaryDepositTransaction(primaryTransaction);
 			
 		} else if (accountType.equalsIgnoreCase("Savings")){
 			SavingsAccount savingsAccount = user.getSavingsAccount();
@@ -71,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
 			savingsAccountDao.save(savingsAccount);
 			Date date = new Date();
 			SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Deposit to Savings Account", "Account", "Finished", amount, savingsAccount.getAccountBalance(), savingsAccount );
-//			transactionService.saveSavingsDepositTransaction(savingsTransaction);
+			transactionService.saveSavingsDepositTransaction(savingsTransaction);
 
 		}
 	}
@@ -84,16 +88,16 @@ public class AccountServiceImpl implements AccountService {
 			primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)));
 			primaryAccountDao.save(primaryAccount);
 			Date date = new Date();			
-			PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Withdraw fom Primary Account", "Account","Finished", amount, primaryAccount.getAccountBalance(), primaryAccount);
-//			transactionService.savePrimaryDepositTransaction(primaryTransaction);
+			PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Withdraw", "Account","Finished", amount, primaryAccount.getAccountBalance(), primaryAccount);
+			transactionService.savePrimaryWithdrawTransaction(primaryTransaction);
 			
 		} else if (accountType.equalsIgnoreCase("Savings")){
 			SavingsAccount savingsAccount = user.getSavingsAccount();
 			savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)));
 			savingsAccountDao.save(savingsAccount);
 			Date date = new Date();
-			SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Withdraw fom Savings Account", "Account", "Finished", amount, savingsAccount.getAccountBalance(), savingsAccount );
-//			transactionService.saveSavingsDepositTransaction(savingsTransaction);
+			SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Withdraw", "Account", "Finished", amount, savingsAccount.getAccountBalance(), savingsAccount );
+			transactionService.saveSavingsWithdrawTransaction(savingsTransaction);
 
 		}		
 	}

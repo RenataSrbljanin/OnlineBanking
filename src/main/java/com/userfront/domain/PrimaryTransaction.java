@@ -20,7 +20,7 @@ public class PrimaryTransaction {
 	private String description;
 	private String type;
 	private String status;
-	private double ammount;
+	private double amount;
 	private BigDecimal availableBalance;
 	@ManyToOne
 	@JoinColumn(name = "primary_account_id")
@@ -28,14 +28,14 @@ public class PrimaryTransaction {
 	
 	public PrimaryTransaction(){}
 
-	public PrimaryTransaction(Date date, String description, String type, String status, double ammount,
+	public PrimaryTransaction(Date date, String description, String type, String status, double amount,
 			BigDecimal availableBalance, PrimaryAccount primaryAccount) {
 		super();
 		this.date = date;
 		this.description = description;
 		this.type = type;
 		this.status = status;
-		this.ammount = ammount;
+		this.amount = amount;
 		this.availableBalance = availableBalance;
 		this.primaryAccount = primaryAccount;
 	}
@@ -80,12 +80,12 @@ public class PrimaryTransaction {
 		this.status = status;
 	}
 
-	public double getAmmount() {
-		return ammount;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setAmmount(double ammount) {
-		this.ammount = ammount;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	public BigDecimal getAvailableBalance() {
